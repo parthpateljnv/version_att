@@ -1,0 +1,47 @@
+
+# ======================================================================
+# Define options
+# ======================================================================
+set val(chan)         Channel/WirelessChannel  ;# channel type
+set val(prop)         Propagation/TwoRayGround ;# radio-propagation model
+set val(ant)          Antenna/OmniAntenna      ;# Antenna type
+set val(ll)           LL                       ;# Link layer type
+set val(ifq)          Queue/DropTail/PriQueue  ;# Interface queue type
+set val(ifqlen)       50                       ;# max packet in ifq
+set val(netif)        Phy/WirelessPhy          ;# network interface type
+set val(mac)          Mac/802_11               ;# MAC type
+set val(rp)           DSDV                     ;# ad-hoc routing protocol 
+set val(nn)           2                        ;# number of mobilenodes
+
+
+Next we go to the main part of the program and start by creating an instance of the simulator,
+set ns_    [new Simulator]
+Then setup trace support by opening file simple.tr and call the procedure trace-all {} as follows:
+set tracefd     [open simple.tr w]
+$ns_ trace-all $tracefd           
+Next create a topology object that keeps track of movements of mobilenodes within the topological boundary.
+set topo	[new Topography]
+We had earlier mentioned that mobilenodes move within a topology of 500mX500m. We provide the topography object with x and y co-ordinates of the boundary, (x=500, y=500) :
+$topo load_flatgrid 500 500
+
+
+Next we create the object God, as follows:
+create-god $val(nn)
+
+
+The configuration API for creating mobilenodes looks as follows:
+# Configure nodes
+        $ns_ node-config -adhocRouting $val(rp) \
+                         -llType $val(ll) \
+                         -macType $val(mac) \
+                         -ifqType $val(ifq) \
+                         -ifqLen $val(ifqlen) \
+                         -antType $val(ant) \
+                         -propType $val(prop) \
+                         -phyType $val(netif) \
+                         -topoInstance $topo \
+                         -channelType $val(chan) \
+                         -agentTrace ON \
+                         -routerTrace ON \
+                         -macTrace OFF \
+                         -movementTrace OFF
