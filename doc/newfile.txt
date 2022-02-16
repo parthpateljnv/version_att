@@ -45,3 +45,16 @@ The configuration API for creating mobilenodes looks as follows:
                          -routerTrace ON \
                          -macTrace OFF \
                          -movementTrace OFF
+
+# Below snipet is used to set the channels in topology 
+set chan_1 [new $val(chan)]
+set chan_2 [new $val(chan)]
+# set the channels 
+set chan_3 [new $val(chan)]
+set chan_4 [new $val(chan)]
+set chan_5 [new $val(chan)]
+set chan_6 [new $val(chan)]
+set chan_7 [new $val(chan)]
+set chan_8 [new $val(chan)]
+set chan_9 [new $val(chan)]
+set chan_10 [new $val(chan)]
